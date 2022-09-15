@@ -50,5 +50,5 @@ In the application you can send morse code by pressing down the 'down arrow key'
 | 0 | ----- |
 
 ### sources
-- https://en.wikipedia.org/wiki/Morse_code
-- https://www.pinvoke.net/default.aspx/user32.getkeystate
+- [Morse Rules](https://en.wikipedia.org/wiki/Morse_code)
+- [Get Button State](https://github.com/RikVanHaaren/User32_buttonState)
