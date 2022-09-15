@@ -1,4 +1,5 @@
 ﻿using MorseCode;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 /*  Morse Rules
@@ -18,11 +19,19 @@ static extern short GetKeyState(VirtualKey nVirtKey);
 bool _isKeyDown = false;
 bool _isKeyDownLastState = false;
 
+Stopwatch stopWatch_buttonDuration = new Stopwatch();
+
 // Main program
 while (true) {
     _isKeyDown = IsPressed(VirtualKey.VK_DOWN);
 
     if (_isKeyDown != _isKeyDownLastState) {
+        if(_isKeyDown) {
+            stopWatch_buttonDuration.Start();
+        } else {
+            Console.Write("Button held for:" + (int)stopWatch_buttonDuration.Elapsed.TotalMilliseconds + " seconds");
+            stopWatch_buttonDuration.Reset();
+        }
         Console.WriteLine("press");
     }
 
