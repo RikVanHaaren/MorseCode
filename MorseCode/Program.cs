@@ -15,6 +15,10 @@ using System.Runtime.InteropServices;
 [DllImport("USER32.dll")]
 static extern short GetKeyState(VirtualKey nVirtKey);
 
+Dictionary<char, string> _morseAlphabetDictionary = new Dictionary<char, string>() { { 'a', ".-" }, { 'b', "-..." }, { 'c', "-.-." }, { 'd', "-.." }, { 'e', "." }, { 'f', "..-." }, { 'g', "--." }, { 'h', "...." }, { 'i', ".." }, { 'j', ".---" }, { 'k', "-.-" }, { 'l', ".-.." }, { 'm', "--" }, { 'n', "-." }, { 'o', "---" }, { 'p', ".--." }, { 'q', "--.-" }, { 'r', ".-." }, { 's', "..." }, { 't', "-" }, { 'u', "..-" }, { 'v', "...-" }, { 'w', ".--" }, { 'x', "-..-" }, { 'y', "-.--" }, { 'z', "--.." }, { '0', "-----" }, { '1', ".----" }, { '2', "..---" }, { '3', "...--" }, { '4', "....-" }, { '5', "....." }, { '6', "-...." }, { '7', "--..." }, { '8', "---.." }, { '9', "----." } };
+const int _timeUnitTimeSpan = 80;
+int _timeUnitCount = 0;
+
 // Get keyState for hold down counter
 bool _isKeyDown = false;
 bool _isKeyDownLastState = false;
@@ -29,13 +33,21 @@ while (true) {
         if(_isKeyDown) {
             stopWatch_buttonDuration.Start();
         } else {
-            Console.Write("Button held for:" + (int)stopWatch_buttonDuration.Elapsed.TotalMilliseconds + " seconds");
+            Console.Write(milliesecondToMorse(_timeUnitTimeSpan, (int)stopWatch_buttonDuration.Elapsed.TotalMilliseconds));
             stopWatch_buttonDuration.Reset();
         }
-        Console.WriteLine("press");
     }
 
     _isKeyDownLastState = _isKeyDown;
+}
+
+static char milliesecondToMorse(int timeUnit, int millieseconds) {
+    if (millieseconds >= timeUnit * 3)
+        return '-';
+    else if (millieseconds >= 1 && millieseconds <= timeUnit * 3)
+        return '.';
+
+    return ' ';
 }
 
 static bool IsPressed(VirtualKey virtualKey) {
